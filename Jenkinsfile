@@ -1,44 +1,30 @@
 pipeline {
-    agent any 
-
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    // Build and push Docker image
-                    bat 'docker build -t w9-dd-app:latest .'
-                    bat 'docker tag w9-dd-app:latest vaishnavi517/w9-dh-app:latest'
-                    bat 'docker push vaishnavi517/w9-dh-app:latest'
+    agent any
+    stages{
+        stage('build'){
+            steps{
+                script{
+                    bat 'docker build -t week9 .'
+                    bat 'docker tag week9:latest vaishnavi517/week9:latest'
+                    bat 'docker push vaishnavi517/week9:latest'
                 }
             }
         }
-        stage('Test') {
-            steps {
-                script {
-                    echo 'Running tests...'
+        stage('tests'){
+            steps{
+                script{
+                    echo 'tests'
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                script {
-                    // Delete and start Minikube cluster
+        stage('deploy'){
+            steps{
+                script{
+                    
                     bat 'minikube delete'
                     bat 'minikube start'
+
                     
-                    // Enable the dashboard addon
-                    bat 'minikube addons enable dashboard'
-                    
-                    // Apply Kubernetes resources
-                    bat 'kubectl apply -f my-kube1-deployment.yaml'
-                    bat 'kubectl apply -f my-kube1-service.yaml'
-                    
-                    // Expose the Kubernetes Dashboard service
-                    bat 'minikube dashboard'
-                    
-                    echo 'Deploying application...'
                 }
             }
         }
-    }
-}
