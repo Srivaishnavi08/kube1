@@ -28,7 +28,7 @@ pipeline {
 
                     bat 'kubectl apply -f my-kube1-deployment.yaml'
                     bat 'kubectl apply -f my-kube1-service.yaml'
-                    bat 'start minikube dashboard'
+                    bat 'minikube dashboard'
 
                 }
             }
